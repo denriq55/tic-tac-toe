@@ -1,6 +1,6 @@
 
 const game = {
-    
+    winner: false,
     arrayCells: [],
     winningCombination: [
         [0, 1, 2],
@@ -48,12 +48,19 @@ const game = {
             this.arrayCells.push(cell);
 
             cell.addEventListener("click", (e) => {
-                e.target.textContent = this.activePlayer.marker;
-                
-                this.checkWinner();
+                if (e.target.textContent === "") {
+                e.target.textContent = this.activePlayer.marker
                 this.switchPlayer();
+
+                
+                
+                } else if (e.target.textContent === "X" || 
+                e.target.textContent === "O")
+                { console.log("Sorry! This spot is taken. Please choose another spot.")}
+                this.checkWinner();
+                
                 })
-            
+                
         }
         
     },
@@ -61,15 +68,15 @@ const game = {
 
     switchPlayer () {
         if (this.activePlayer === this.players[0]) {
-              this.activePlayer = this.players[1]
+            this.activePlayer = this.players[1]
           } else {
-                  this.activePlayer = this.players[0]
-                  }
+            this.activePlayer = this.players[0]
+            }
                   
     },
 
     checkWinner() {
-        let winner;
+        
         for (let i = 0; i < this.winningCombination.length; i++) {
             const [a, b, c] = this.winningCombination[i];
 
@@ -77,21 +84,26 @@ const game = {
                 this.arrayCells[a].textContent === this.arrayCells[b].textContent &&
                 this.arrayCells[a].textContent === this.arrayCells[c].textContent) 
                 {
-                alert(`${this.activePlayer.name} is the winner!`)
-                this.restartGame()
+                this.winner = true
+                console.log(`${this.activePlayer.name} is the winner!`)
+                setTimeout(()=> {
+                    this.restartGame();
+                }, 1000)
+                
                 return
                 } 
             
         }
         
+        
     },
 
     restartGame() {
-       
+        if (this.winner) {
             this.arrayCells.forEach(cell => {
                 cell.textContent = '';
             });
-
+        }
             
         }
 }
