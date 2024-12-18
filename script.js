@@ -2,6 +2,8 @@
 const game = {
     winner: false,
     arrayCells: [],
+    score: 0,
+    rematchDialog: document.querySelector("#rematch"),
     winningCombination: [
         [0, 1, 2],
         [3, 4, 5],
@@ -23,29 +25,47 @@ const game = {
         startDialog.showModal();
 
         startButton.addEventListener("click", () => {
-        const playerOneName = document.querySelector("#p1name").value
-        const playerTwoName = document.querySelector("#p2name").value
-        
-        this.getPlayers( playerOneName, playerTwoName );
-        this.createGameBoard();
+            
+            
+            this.getPlayers();
+            this.createGameBoard();
 
-        startDialog.close()
+            startDialog.close()
         });
+
+
 
     },
     
 
     getPlayers(playerOneName, playerTwoName ) {
+        playerOneName = document.querySelector("#p1name").value;
+        playerTwoName = document.querySelector("#p2name").value;
+
+        console.log('Player One Name:', playerOneName);
+        console.log('Player Two Name:', playerTwoName);
+
          this.players = [
             {
                 name: playerOneName,
-                marker: "X" 
+                marker: "X" ,
+                score: ""
             },
             {
                 name: playerTwoName, 
-                marker:  "O"
+                marker:  "O",
+                score: ""
             }
         ];
+
+        //show players info on screen
+        const player1Box = document.querySelector(".player1display")
+        const player2Box = document.querySelector(".player2display")
+            
+        
+        player1Box.textContent = "Player 1 " + playerOneName.toUpperCase() + " (X)"
+        player2Box.textContent = "Player 2 " + playerTwoName.toUpperCase() + " (O)".toUpperCase()
+      
         
         this.activePlayer = this.players[0]
         
@@ -98,33 +118,52 @@ const game = {
         for (let i = 0; i < this.winningCombination.length; i++) {
             const [a, b, c] = this.winningCombination[i];
 
-            if (this.arrayCells[a].textContent !== '' && 
-                this.arrayCells[a].textContent === this.arrayCells[b].textContent &&
-                this.arrayCells[a].textContent === this.arrayCells[c].textContent) 
-                {
-                this.winner = true
-                console.log(`${this.activePlayer.name} is the winner!`)
-                setTimeout(()=> {
-                    this.restartGame();
-                }, 1000)
+            for (const player of this.players) {
+                if (this.arrayCells[a].textContent === player.marker && 
+                    this.arrayCells[a].textContent === this.arrayCells[b].textContent &&
+                    this.arrayCells[a].textContent === this.arrayCells[c].textContent)
+                    
+                    { 
+                    
+                    this.winner = true;
                 
-                return
-                } 
-            
-        }
-        
-        
-    },
+                   const declareWinner = document.querySelector(".declare-winner");
+                  declareWinner.textContent = `${player.name} is the winner!`
+                  this.rematchDialog.showModal()
+                  this.playAgain();
+                   return
+                    };
 
-    restartGame() {
+                    
+                };
+        };
+        
+    },   
+    
+
+       playAgain() {
+        const rematchButton = document.querySelector(".rematch-button")
+            rematchButton.addEventListener("click", () => {
+            this.arrayCells.forEach((cell) => cell.textContent = "");
+            this.rematchDialog.close()
+
+        })
+    }
+    
+        
+
+    }
+
+
+    /*restartGame() {
         if (this.winner) {
             this.arrayCells.forEach(cell => {
                 cell.textContent = '';
             });
         }
-            
-        }
-}
+           
+        },
+    */
 
 
 game.startGame()

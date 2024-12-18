@@ -12,23 +12,37 @@
         <div class="game-name">Tic Tac Toe</div>
     </header>
         <dialog id="start">
+            
             <form method = "dialog">
+                <h3>Tic Tac Toe</h3>
                 <label>
-                    Player 1 Name: 
+                    (X) Player 1 Name: 
                     <input type="text" id="p1name" name="p1name">
                 </label>
-
+                    
                 <label>
-                    Player 2 Name: 
+                    (O) Player 2 Name: 
                     <input type="text" id="p2name" name="p2name">
                 </label>
                 <button type="button" id="start-button">Start Game</button>
             </form>
         </dialog>
+
+        <dialog id="rematch">
+            <div class="declare-winner"></div>
+            <button class="rematch-button">Rematch</button>
+            <button type="new-game">New Game</button>
+        </dialog>
     
-    <div class="board">
+    <div class="board"></div>
+    <div class="player1display">
         
     </div>
+
+    <div class="player2display">
+        
+    </div>
+
     
 </body>
 </html>
