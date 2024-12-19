@@ -2,8 +2,12 @@
 const game = {
     winner: false,
     arrayCells: [],
-    score: 0,
+    player1Box: document.querySelector(".player-one-name"),
+    player2Box: document.querySelector(".player-two-name"),
+    player1ScoreBoard: document.querySelector(".scoreboard1"),
+    player2ScoreBoard: document.querySelector(".scoreboard2"),
     rematchDialog: document.querySelector("#rematch"),
+    declareWinner: document.querySelector(".declare-winner"),
     winningCombination: [
         [0, 1, 2],
         [3, 4, 5],
@@ -48,23 +52,25 @@ const game = {
          this.players = [
             {
                 name: playerOneName,
-                marker: "X" ,
-                score: ""
+                marker: "X",
+                score: 0
+                
             },
             {
                 name: playerTwoName, 
                 marker:  "O",
-                score: ""
+                score: 0
+               
             }
         ];
 
         //show players info on screen
-        const player1Box = document.querySelector(".player1display")
-        const player2Box = document.querySelector(".player2display")
+        //const player1Box = document.querySelector(".player1display")
+        //const player2Box = document.querySelector(".player2display")
             
         
-        player1Box.textContent = "Player 1 " + playerOneName.toUpperCase() + " (X)"
-        player2Box.textContent = "Player 2 " + playerTwoName.toUpperCase() + " (O)".toUpperCase()
+        this.player1Box.textContent = "Player 1 " + playerOneName.toUpperCase() + " (X)"
+       this.player2Box.textContent = "Player 2 " + playerTwoName.toUpperCase() + " (O)".toUpperCase()
       
         
         this.activePlayer = this.players[0]
@@ -115,6 +121,7 @@ const game = {
 
     checkWinner() {
         
+        //check for winner
         for (let i = 0; i < this.winningCombination.length; i++) {
             const [a, b, c] = this.winningCombination[i];
 
@@ -123,47 +130,83 @@ const game = {
                     this.arrayCells[a].textContent === this.arrayCells[b].textContent &&
                     this.arrayCells[a].textContent === this.arrayCells[c].textContent)
                     
-                    { 
+                { 
+                    this.winner = player;
+                    this.declareWinner.textContent = `${this.winner.name} is the winner!`;
+                    this.updateScore();
+                    this.rematchDialog.showModal()
+                    this.playAgain();
+                    this.newGame()
                     
-                    this.winner = true;
-                
-                   const declareWinner = document.querySelector(".declare-winner");
-                  declareWinner.textContent = `${player.name} is the winner!`
-                  this.rematchDialog.showModal()
-                  this.playAgain();
-                   return
-                    };
-
-                    
+                    return
                 };
+            };
         };
         
+        //check for a tie
+        if (!this.winner &&
+            this.arrayCells.every(cell => cell.textContent !== "")) 
+
+            {
+            this.declareWinner.textContent = "It's a tie!";
+            this.rematchDialog.showModal();
+            this.playAgain();   
+            this.newGame()
+            }
     },   
+    
+    updateScore() {
+        this.winner.score++
+
+        //Update the correct scoreboard
+        if (this.winner === this.players[0]) {
+            console.log(this.players[0].score)
+            this.player1ScoreBoard.textContent = this.winner.score;
+            
+
+        } else if (this.winner === this.players[1]) {
+            console.log(this.players[1].score);
+            this.player2ScoreBoard.textContent = this.winner.score;
+            
+        }
+    },
+    
+        
+    
     
 
        playAgain() {
-        const rematchButton = document.querySelector(".rematch-button")
+        
+        const rematchButton = document.querySelector(".rematch-button");
             rematchButton.addEventListener("click", () => {
             this.arrayCells.forEach((cell) => cell.textContent = "");
-            this.rematchDialog.close()
+            this.activePlayer = this.winner;
+            this.rematchDialog.close();
+        });
 
-        })
-    }
-    
-        
+       },
 
-    }
-
-
-    /*restartGame() {
-        if (this.winner) {
-            this.arrayCells.forEach(cell => {
-                cell.textContent = '';
-            });
-        }
+       
+        newGame() {
+        const newGameButton = document.querySelector(".new-game")
+        newGameButton.addEventListener("click", () => {
+            this.arrayCells.forEach((cell) => cell.textContent = "");
+            
+            this.dialogBox.showDialog()
+            console.log("New game button clicked");
+            this.rematchDialog.close();
+            console.log("Dialog closed after newGame");
            
-        },
-    */
+
+        
+       }  )  
+}
+}
+
+       
+    
 
 
-game.startGame()
+       
+game.startGame();
+      

@@ -49,6 +49,7 @@ form {
 .player2display {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     justify-self: center;
+  
     
 }
 .player1display {
@@ -57,12 +58,17 @@ form {
     font-size: 1rem;
     grid-column: 1;
     grid-row: 2;
+    left: 1rem;
     
 }
 
 .player2display {
     grid-column: 3;
     grid-row: 2;
+    right: 1rem;
 }
 
+.scoreboard1, .scoreboard2 {
+    visibility: visible !important;
+}
 
