@@ -86,12 +86,10 @@ form {
     right: 1rem;
 }
 
-.scoreboard1, .scoreboard2 {
-    visibility: visible !important;
-}
+
 
 img {
-    width: 50px;
+    width: 30px;
 }
 
 .timer1,
