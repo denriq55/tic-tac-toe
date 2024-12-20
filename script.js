@@ -6,6 +6,10 @@ const game = {
     player2Box: document.querySelector(".player-two-name"),
     player1ScoreBoard: document.querySelector(".scoreboard1"),
     player2ScoreBoard: document.querySelector(".scoreboard2"),
+    player1Timer: document.querySelector(".timer1"),
+    player2Timer: document.querySelector(".timer2"),
+    timeLeft: 5,
+ 
     rematchDialog: document.querySelector("#rematch"),
     declareWinner: document.querySelector(".declare-winner"),
     winningCombination: [
@@ -53,13 +57,15 @@ const game = {
             {
                 name: playerOneName,
                 marker: "X",
-                score: 0
+                score: 0,
+                timer: 7
                 
             },
             {
                 name: playerTwoName, 
                 marker:  "O",
-                score: 0
+                score: 0,
+                timer: 7
                
             }
         ];
@@ -74,6 +80,7 @@ const game = {
       
         
         this.activePlayer = this.players[0]
+        this.setTimer()
         
     },
         
@@ -109,12 +116,73 @@ const game = {
         
     },
 
+    setTimer() {
+        if (!this.winner) {
+        setInterval(() => {
+            if (this.activePlayer === this.players[0]) {
+                this.players[0].timer--;
+                this.player1Timer.textContent = this.players[0].timer
+                this.players[1].timer = 7
 
+            } else {
+                this.players[1].timer--;
+                this.player2Timer.textContent = this.players[1].timer
+                this.players[0].timer = 7
+        
+            }
+
+            if (this.activePlayer.timer <= 0 || this.winner) {
+                clearInterval(this.activePlayer.timer)
+                this.switchPlayer()
+            }
+        }, 1000
+            )
+        }
+
+
+
+            /*
+            this.activePlayer.timer--;
+
+            console.log(this.activePlayer.name + `You have ${this.activePlayer.timer} seconds left!`);
+
+            if (this.activePlayer === this.players[0]) {
+                this.player1Timer.textContent = this.activePlayer.timer
+            } else {
+                this.player2Timer.textContent = this.activePlayer.timer  
+            }
+
+            if (this.activePlayer.timer < 0) {
+                clearInterval(this.activePlayer.timer);
+                console.log("Time's up! You skip a turn")
+               
+                this.switchPlayer()
+            }
+    
+            }, 1000);
+
+    */
+
+
+
+},
     switchPlayer () {
+      const turnIndicatorBox1 = document.querySelector(".turn-indicator1")
+      const turnIndicatorBox2 = document.querySelector(".turn-indicator2")
+
         if (this.activePlayer === this.players[0]) {
             this.activePlayer = this.players[1]
+            turnIndicatorBox2.innerHTML = '<img src="icons/arrow-up-solid.svg" alt="Turn Indicator">'
+            turnIndicatorBox1.innerHTML = ''
+            this.player1Timer.textContent = "";
+
+            
+           
           } else {
             this.activePlayer = this.players[0]
+            turnIndicatorBox1.innerHTML = '<img src="icons/arrow-up-solid.svg" alt="Turn Indicator">'
+            turnIndicatorBox2.innerHTML = ''
+            this.player2Timer.textContent = "";
             }
                   
     },
@@ -190,13 +258,15 @@ const game = {
         newGame() {
         const newGameButton = document.querySelector(".new-game")
         newGameButton.addEventListener("click", () => {
+            window.location.reload();
+            /*
             this.arrayCells.forEach((cell) => cell.textContent = "");
             
             this.dialogBox.showDialog()
             console.log("New game button clicked");
             this.rematchDialog.close();
             console.log("Dialog closed after newGame");
-           
+           */
 
         
        }  )  
