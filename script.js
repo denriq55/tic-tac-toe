@@ -8,9 +8,6 @@ const game = {
     player2ScoreBoard: document.querySelector(".scoreboard2"),
     player1Timer: document.querySelector(".timer1"),
     player2Timer: document.querySelector(".timer2"),
-    
-  
- 
     rematchDialog: document.querySelector("#rematch"),
     declareWinner: document.querySelector(".declare-winner"),
     winningCombination: [
@@ -39,8 +36,12 @@ const game = {
             
             this.getPlayers();
             this.createGameBoard();
+            this.setTimer();
             startDialog.close()
         });
+
+        
+       
 
 
 
@@ -80,13 +81,13 @@ const game = {
         this.activePlayer = this.players[0]
         
         
-        this.setTimer()
+        
     },
         
         
 
     createGameBoard() {
-       
+        
         //create board
         const board = document.querySelector(".board");
         for (let i = 0; i < 9; i++) {
@@ -113,12 +114,14 @@ const game = {
                 //check for winner
                 this.checkWinner();
                 
+                
                 })
                 
         }
         
     },
 
+    //start the timer
     setTimer() {
     
         this.startTimer = 
@@ -135,8 +138,8 @@ const game = {
         
             }
 
-            if (this.activePlayer.timer <= 0) {
-                clearInterval(this.activePlayer.timer)
+            if (this.activePlayer.timer <= 0 || this.winner) {
+                clearInterval(this.startTimer)
                 this.switchPlayer()
                 
             } 
@@ -144,10 +147,13 @@ const game = {
       
     },
 
+
+//stop the timer
 stopTimer() {
     clearInterval(this.startTimer)
 },
 
+//switch players
     switchPlayer() {
       const turnIndicatorBox1 = document.querySelector(".turn-indicator1")
       const turnIndicatorBox2 = document.querySelector(".turn-indicator2")
@@ -157,6 +163,7 @@ stopTimer() {
             turnIndicatorBox2.innerHTML = '<img src="icons/arrow-up-solid.svg" alt="Turn Indicator">';
             turnIndicatorBox1.innerHTML = "";
             this.player1Timer.textContent = "";
+            
 
             
            
@@ -170,7 +177,6 @@ stopTimer() {
     },
 
     checkWinner() {
-        
         //check for winner
         for (let i = 0; i < this.winningCombination.length; i++) {
             const [a, b, c] = this.winningCombination[i];
@@ -206,12 +212,11 @@ stopTimer() {
             }
     },   
     
+    //Update the correct scoreboard
     updateScore() {
         
         this.winner.score++;
 
-
-        //Update the correct scoreboard
         if (this.winner === this.players[0]) {
             console.log(this.players[0].score)
             this.player1ScoreBoard.textContent = "🏆".repeat(this.winner.score)
@@ -224,36 +229,34 @@ stopTimer() {
         }
     },
     
-   
 
-    rematchButton: document.querySelector(".rematch-button").
-    addEventListener("click", this.playAgain),
-
-    newGameButton: document.querySelector(".new-game").
-    addEventListener("click", this.newGame),
-
+    
+    //rematch
     playAgain() {
-        //const rematchButton = document.querySelector(".rematch-button")
-       // rematchButton.addEventListener("click", ()  => {
+        const rematchButton = document.querySelector(".rematch-button")
+
+        rematchButton.addEventListener("click", ()  => {
         this.arrayCells.forEach((cell) => cell.textContent = "");
         this.activePlayer = this.winner.marker === 'X' ? this.players[0] : this.players[1];
         this.winner = false;
+        this.stopTimer()
         console.log(`play again winner: ${this.winner}`);
         this.rematchDialog.close();
         this.setTimer();
         
         
+    })
     },
         
 
     
-    
-
-       
-
-       
+    //reset and create new game
         newGame() {
+            const newGameButton = document.querySelector(".new-game");
+
+            newGameButton.addEventListener("click", () => {
             window.location.reload();
+        })
             }
         
     }
@@ -262,6 +265,8 @@ stopTimer() {
 
        
 game.startGame();
+game.playAgain();
+game.newGame();
 
 
       
