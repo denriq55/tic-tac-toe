@@ -10,6 +10,7 @@ const game = {
     player2Timer: document.querySelector(".timer2"),
     rematchDialog: document.querySelector("#rematch"),
     declareWinner: document.querySelector(".declare-winner"),
+    
     winningCombination: [
         [0, 1, 2],
         [3, 4, 5],
@@ -32,18 +33,10 @@ const game = {
         startDialog.showModal();
 
         startButton.addEventListener("click", () => {
-            
-            
             this.getPlayers();
             this.createGameBoard();
-            this.setTimer();
             startDialog.close()
         });
-
-        
-       
-
-
 
     },
     
@@ -53,29 +46,33 @@ const game = {
         playerOneName = document.querySelector("#p1name").value;
         playerTwoName = document.querySelector("#p2name").value;
 
-        console.log('Player One Name:', playerOneName);
-        console.log('Player Two Name:', playerTwoName);
-
          this.players = [
             {
                 name: playerOneName,
                 marker: "X",
                 score: 0,
-                timer: 6
+                timer: 6,
+                color: "purple"
                 
             },
             {
                 name: playerTwoName, 
                 marker:  "O",
                 score: 0,
-                timer: 6
+                timer: 6,
+                color: "orange"
                
             }
         ];
 
         //show players info on screen
-        this.player1Box.textContent = "Player 1 " + playerOneName.toUpperCase() + " (X)"
-        this.player2Box.textContent = "Player 2 " + playerTwoName.toUpperCase() + " (O)"
+        this.player1Box.textContent = playerOneName.toUpperCase() + " (X)";
+        this.player1Box.classList.add("p1")
+        this.player1Box.style.color = this.players[0].color;
+
+        this.player2Box.textContent = playerTwoName.toUpperCase() + " (O)";
+        this.player2Box.classList.add("p2")
+        this.player2Box.style.color = this.players[1].color;
       
         // set current player as player 1
         this.activePlayer = this.players[0]
@@ -103,13 +100,14 @@ const game = {
             cell.addEventListener("click", (e) => {
                 if (e.target.textContent === "") {
                 e.target.textContent = this.activePlayer.marker
+                cell.style.color = this.activePlayer.color
                 this.switchPlayer();
 
                 
                 
                 } else if (e.target.textContent === "X" || 
                 e.target.textContent === "O")
-                { console.log("Sorry! This spot is taken. Please choose another spot.")}
+                { alert ("Sorry! This spot is taken. Please choose another spot.")}
 
                 //check for winner
                 this.checkWinner();
@@ -120,10 +118,10 @@ const game = {
         }
         
     },
-
+/*
     //start the timer
     setTimer() {
-    
+   
         this.startTimer = 
         setInterval(() => {
             if (this.activePlayer === this.players[0]) {
@@ -153,6 +151,9 @@ stopTimer() {
     clearInterval(this.startTimer)
 },
 
+
+*/
+
 //switch players
     switchPlayer() {
       const turnIndicatorBox1 = document.querySelector(".turn-indicator1")
@@ -162,7 +163,7 @@ stopTimer() {
             this.activePlayer = this.players[1]
             turnIndicatorBox2.innerHTML = '<img src="icons/arrow-up-solid.svg" alt="Turn Indicator">';
             turnIndicatorBox1.innerHTML = "";
-            this.player1Timer.textContent = "";
+          
             
 
             
@@ -171,7 +172,7 @@ stopTimer() {
             this.activePlayer = this.players[0]
             turnIndicatorBox1.innerHTML = '<img src="icons/arrow-up-solid.svg" alt="Turn Indicator">'
             turnIndicatorBox2.innerHTML = "";
-          this.player2Timer.textContent = "";
+          
             }
                   
     },
@@ -188,12 +189,11 @@ stopTimer() {
                     
                 { 
                     this.winner = player;
-                    this.stopTimer();
                     this.declareWinner.textContent = `${this.winner.name} is the winner!`;
                     this.updateScore();
                     this.rematchDialog.showModal()
-                   //this.playAgain();   
-                   //this.newGame()
+                   this.playAgain();   
+                   this.newGame()
                     
                     return
                 };
@@ -207,8 +207,8 @@ stopTimer() {
             {
             this.declareWinner.textContent = "It's a tie!";
             this.rematchDialog.showModal();
-            //this.playAgain();   
-            //this.newGame()
+            this.playAgain();   
+            this.newGame()
             }
     },   
     
@@ -234,15 +234,12 @@ stopTimer() {
     //rematch
     playAgain() {
         const rematchButton = document.querySelector(".rematch-button")
-
         rematchButton.addEventListener("click", ()  => {
         this.arrayCells.forEach((cell) => cell.textContent = "");
-        this.activePlayer = this.winner.marker === 'X' ? this.players[0] : this.players[1];
+        this.activePlayer = this.winner
         this.winner = false;
-        this.stopTimer()
-        console.log(`play again winner: ${this.winner}`);
+        console.log(this.winner)
         this.rematchDialog.close();
-        this.setTimer();
         
         
     })
@@ -253,7 +250,6 @@ stopTimer() {
     //reset and create new game
         newGame() {
             const newGameButton = document.querySelector(".new-game");
-
             newGameButton.addEventListener("click", () => {
             window.location.reload();
         })
@@ -265,8 +261,6 @@ stopTimer() {
 
        
 game.startGame();
-game.playAgain();
-game.newGame();
 
 
-      
+
