@@ -3,10 +3,7 @@
     src: url(fonts/Knewave/Knewave-Regular.ttf);
 }
 
-html {
-    margin: 0;
-    border: 0;
-}
+
 
 body {
     display: grid;
@@ -14,7 +11,7 @@ body {
     grid-template-rows: 20% 1fr;
     margin: 8rem;
     font-family: Knewave, 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    color:rgb(57, 69, 64);
+    color:rgb(55, 57, 56);
     background: url(images/bg.jpg) no-repeat center;
     background-size: 100vw;
     
@@ -96,39 +93,76 @@ form {
 .player1display,
 .player2display {
     font-family: Knewave, 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    display: flex;
-    flex-direction: column;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     justify-self: center;
-  
+    font-size: 1.2rem;
+    position: relative;
     
 }
 
-.player1display {
+.confetti1, .player1display {
     
     
-    font-size: 1rem;
+    
     grid-column: 1;
     grid-row: 2;
     left: 1rem;
     
 }
 
+.scoreboard1, .scoreboard2 {
+    font-size: 1.5rem; 
+}
+
+.turn-indicator1, 
+.turn-indicator2 {
+    width: 5rem;
+    margin-top: 8rem;
+}
 
 
-.player2display {
+
+.confetti2, .player2display {
     grid-column: 3;
     grid-row: 2;
     right: 1rem;
+    
+    
+}
+
+.confetti1, 
+.confetti2 {
+    height: 10rem;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 
 
 img {
-    width: 30px;
+    
+    animation: blink 2.8s infinite;
+    
 }
+
 
 .timer1,
 .timer2 {
     font-size: 3rem;
 }
+
+
+
+   

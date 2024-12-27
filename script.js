@@ -10,7 +10,11 @@ const game = {
     player2Timer: document.querySelector(".timer2"),
     rematchDialog: document.querySelector("#rematch"),
     declareWinner: document.querySelector(".declare-winner"),
-    
+    turnIndicatorBox1: document.querySelector(".turn-indicator1"),
+    turnIndicatorBox2: document.querySelector(".turn-indicator2"),
+    confetti1: document.querySelector(".confetti1"),
+    confetti2: document.querySelector(".confetti2"),
+
     winningCombination: [
         [0, 1, 2],
         [3, 4, 5],
@@ -52,7 +56,8 @@ const game = {
                 marker: "X",
                 score: 0,
                 timer: 6,
-                color: "purple"
+                color: "#663165"
+              
                 
             },
             {
@@ -60,7 +65,8 @@ const game = {
                 marker:  "O",
                 score: 0,
                 timer: 6,
-                color: "orange"
+                color: "#000080"
+                
                
             }
         ];
@@ -118,51 +124,17 @@ const game = {
         }
         
     },
-/*
-    //start the timer
-    setTimer() {
-   
-        this.startTimer = 
-        setInterval(() => {
-            if (this.activePlayer === this.players[0]) {
-                this.players[0].timer--;
-                this.player1Timer.textContent = this.players[0].timer
-                this.players[1].timer = 6
 
-            } else if ((this.activePlayer === this.players[1]) ) {
-                this.players[1].timer--;
-                this.player2Timer.textContent = this.players[1].timer
-                this.players[0].timer = 6
-        
-            }
-
-            if (this.activePlayer.timer <= 0 || this.winner) {
-                clearInterval(this.startTimer)
-                this.switchPlayer()
-                
-            } 
-            }, 1000)
-      
-    },
-
-
-//stop the timer
-stopTimer() {
-    clearInterval(this.startTimer)
-},
-
-
-*/
 
 //switch players
     switchPlayer() {
-      const turnIndicatorBox1 = document.querySelector(".turn-indicator1")
-      const turnIndicatorBox2 = document.querySelector(".turn-indicator2")
+     // const turnIndicatorBox1 = document.querySelector(".turn-indicator1")
+     // const turnIndicatorBox2 = document.querySelector(".turn-indicator2")
 
         if (this.activePlayer === this.players[0]) {
             this.activePlayer = this.players[1]
-            turnIndicatorBox2.innerHTML = '<img src="icons/arrow-up-solid.svg" alt="Turn Indicator">';
-            turnIndicatorBox1.innerHTML = "";
+            this.turnIndicatorBox2.innerHTML = '<img src="icons/arrow-circle.svg" alt="Turn Indicator">';
+            this.turnIndicatorBox1.innerHTML = "";
           
             
 
@@ -170,8 +142,8 @@ stopTimer() {
            
           } else {
             this.activePlayer = this.players[0]
-            turnIndicatorBox1.innerHTML = '<img src="icons/arrow-up-solid.svg" alt="Turn Indicator">'
-            turnIndicatorBox2.innerHTML = "";
+            this.turnIndicatorBox1.innerHTML = '<img src="icons/arrow-circle.svg" alt="Turn Indicator">'
+            this.turnIndicatorBox2.innerHTML = "";
           
             }
                   
@@ -189,6 +161,7 @@ stopTimer() {
                     
                 { 
                     this.winner = player;
+                    
                     this.declareWinner.textContent = `${this.winner.name} is the winner!`;
                     this.updateScore();
                     this.rematchDialog.showModal()
@@ -220,12 +193,17 @@ stopTimer() {
         if (this.winner === this.players[0]) {
             console.log(this.players[0].score)
             this.player1ScoreBoard.textContent = "🏆".repeat(this.winner.score)
+            this.activePlayer = this.players[0]
+            this.confetti1.innerHTML = '<img src="images/confetti.gif" alt="Confetti">'
+            this.turnIndicatorBox2.innerHTML = ""
             
 
         } else if (this.winner === this.players[1]) {
             console.log(this.players[1].score);
             this.player2ScoreBoard.textContent = "🏆".repeat(this.winner.score)
-            
+            this.activePlayer = this.players[1]
+            this.confetti2.innerHTML = '<img src="images/confetti.gif" alt="Confetti">'
+            this.turnIndicatorBox1 .innerHTML = ""
         }
     },
     
@@ -236,10 +214,10 @@ stopTimer() {
         const rematchButton = document.querySelector(".rematch-button")
         rematchButton.addEventListener("click", ()  => {
         this.arrayCells.forEach((cell) => cell.textContent = "");
-        this.activePlayer = this.winner
         this.winner = false;
-        console.log(this.winner)
         this.rematchDialog.close();
+        this.confetti1.innerHTML = ''
+        this.confetti2.innerHTML = ''
         
         
     })
