@@ -11,9 +11,10 @@ body {
     grid-template-rows: 20% 1fr;
     margin: 8rem;
     font-family: Knewave, 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    color:rgb(55, 57, 56);
+    color:#4d5448;
     background: url(images/bg.jpg) no-repeat center;
     background-size: 100vw;
+   
     
 }
 
@@ -27,6 +28,7 @@ body {
 dialog {
     border-radius: 20px;
 }
+
 
 button,
 input {
@@ -43,7 +45,7 @@ header {
     text-align: center;
     grid-column: 2;
     grid-row: 1;
-    font-size: 3rem;
+    font-size: 2rem;
     margin-bottom: 25px;
     
 }
@@ -52,8 +54,9 @@ header {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
-    width: 250px;
-    height: 250px;
+    width: min(250px, 20vw);
+    height: min(250px, 20vw);
+  
     grid-column: 2;
     grid-row: 2;
     margin: auto;
@@ -96,17 +99,15 @@ form {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     justify-self: center;
     font-size: 1.2rem;
-    position: relative;
+    
     
 }
 
-.confetti1, .player1display {
-    
-    
-    
+.confetti1, 
+.player1display {
     grid-column: 1;
     grid-row: 2;
-    left: 1rem;
+    
     
 }
 
@@ -117,7 +118,7 @@ form {
 .turn-indicator1, 
 .turn-indicator2 {
     width: 5rem;
-    margin-top: 8rem;
+    margin-top: 3rem;
 }
 
 
@@ -125,15 +126,17 @@ form {
 .confetti2, .player2display {
     grid-column: 3;
     grid-row: 2;
-    right: 1rem;
+  
     
     
 }
 
 .confetti1, 
 .confetti2 {
-    height: 10rem;
+    width: 0.5rem;
+    
 }
+    
 
 @keyframes blink {
     0% {
